@@ -22,7 +22,9 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/ekholme/toolcolors/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ekholme/toolcolors/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of toolcolors is to ...
+This package provides color palettes and `ggplot2` color and fill scales inspired by the album artwork of Tool.
+
+**Disclaimer:** This package is not affiliated with or endorsed by Tool or the artists. Palettes are interpretations inspired by the artwork.
 
 ## Installation
 
@@ -33,31 +35,43 @@ You can install the development version of toolcolors from [GitHub](https://gith
 pak::pak("ekholme/toolcolors")
 ```
 
-## Example
+## Example palettes
 
-This is a basic example which shows you how to solve a common problem:
+See all palettes at once:
 
 ```{r}
-#| label: example
 library(toolcolors)
-## basic example code
+display_all()
 ```
 
-What is special about using `README.qmd` instead of just `README.md`? You can include R chunks like so:
+Or display individual palettes:
 
 ```{r}
-#| label: cars
-summary(cars)
+print(tool_palette("lateralus"))
+print(tool_palette("fear_inoculum"))
 ```
 
-You'll still need to render `README.qmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+## Usage
 
-You can also embed plots, for example:
+### Discrete scales
 
 ```{r}
-#| label: pressure
-#| echo: false
-plot(pressure)
+library(ggplot2)
+ggplot(mpg, aes(displ, hwy, color = class)) +
+  geom_point() +
+  scale_color_tool_d("lateralus")
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+### Continuous scales
+
+```{r}
+ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_raster() +
+  scale_fill_tool_c("fear_inoculum")
+```
+
+### Reverse direction
+
+```{r}
+print(tool_palette("undertow", direction = -1))
+```

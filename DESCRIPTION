@@ -1,13 +1,23 @@
 Package: toolcolors
-Title: What the Package Does (One Line, Title Case)
+Title: Color Palettes Inspired by Tool Album Art
 Version: 0.0.0.9000
 Authors@R: 
     person("Eric", "Ekholm", , "eric.ekholm@gmail.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: Provides color palettes and 'ggplot2' color and fill scales
+    inspired by the album artwork of the band Tool. Palettes can be used as
+    discrete or interpolated continuous scales.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0
-Suggests: 
-    testthat (>= 3.0.0)
+Imports:
+    ggplot2 (>= 3.5.0),
+    graphics,
+    grDevices
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    stringr
+URL: https://github.com/ekholme/toolcolors
+BugReports: https://github.com/ekholme/toolcolors/issues
 Config/testthat/edition: 3

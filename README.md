@@ -9,7 +9,11 @@
 [![R-CMD-check](https://github.com/ekholme/toolcolors/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ekholme/toolcolors/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of toolcolors is to …
+This package provides color palettes and `ggplot2` color and fill scales
+inspired by the album artwork of Tool.
+
+**Disclaimer:** This package is not affiliated with or endorsed by Tool
+or the artists. Palettes are interpretations inspired by the artwork.
 
 ## Installation
 
@@ -21,35 +25,64 @@ You can install the development version of toolcolors from
 pak::pak("ekholme/toolcolors")
 ```
 
-## Example
+## Example palettes
 
-This is a basic example which shows you how to solve a common problem:
+See all palettes at once:
 
 ``` r
 library(toolcolors)
-## basic example code
+display_all()
 ```
 
-What is special about using `README.qmd` instead of just `README.md`?
-You can include R chunks like so:
+<img src="man/figures/README-unnamed-chunk-2-1.png"
+style="width:100.0%" />
+
+Or display individual palettes:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+print(tool_palette("lateralus"))
 ```
 
-You’ll still need to render `README.qmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+<img src="man/figures/README-unnamed-chunk-3-1.png"
+style="width:100.0%" />
 
-You can also embed plots, for example:
+``` r
+print(tool_palette("fear_inoculum"))
+```
 
-<img src="man/figures/README-pressure-1.png" style="width:100.0%" />
+<img src="man/figures/README-unnamed-chunk-3-2.png"
+style="width:100.0%" />
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+## Usage
+
+### Discrete scales
+
+``` r
+library(ggplot2)
+ggplot(mpg, aes(displ, hwy, color = class)) +
+  geom_point() +
+  scale_color_tool_d("lateralus")
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png"
+style="width:100.0%" />
+
+### Continuous scales
+
+``` r
+ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_raster() +
+  scale_fill_tool_c("fear_inoculum")
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png"
+style="width:100.0%" />
+
+### Reverse direction
+
+``` r
+print(tool_palette("undertow", direction = -1))
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png"
+style="width:100.0%" />
