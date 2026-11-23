@@ -16,8 +16,7 @@ Imports:
     grDevices
 Suggests:
     testthat (>= 3.0.0),
-    knitr,
-    stringr
+    knitr
 URL: https://github.com/ekholme/toolcolors
 BugReports: https://github.com/ekholme/toolcolors/issues
 Config/testthat/edition: 3

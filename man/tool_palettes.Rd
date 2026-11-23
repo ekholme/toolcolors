@@ -16,7 +16,8 @@ A named list of color palettes inspired by Tool album artwork.
 \details{
 Each palette contains:
 \itemize{
-\item \code{colors} - hex codes, listed in natural order (dark to light)
+\item \code{colors} - hex codes, listed in natural order (dark to light, or as
+they read in the art); used for continuous scales
 \item \code{order} - priority ranking of indices for discrete sampling
 \item \code{type} - either "sequential" or "qualitative"
 }

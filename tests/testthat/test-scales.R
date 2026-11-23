@@ -5,67 +5,61 @@ test_that("scale functions return Scale objects", {
   expect_s3_class(scale_fill_tool_c(), "ScaleContinuous")
 })
 
-test_that("scale_color_tool_d works with mpg", {
-  p <- ggplot2::ggplot(ggplot2::mpg, aes(displ, hwy, color = class)) +
-    scale_color_tool_d("lateralus") +
-    geom_point()
-  
+test_that("scales target the right aesthetics", {
+  expect_equal(scale_color_tool_d()$aesthetics, "colour")
+  expect_equal(scale_fill_tool_d()$aesthetics, "fill")
+  expect_equal(scale_color_tool_c()$aesthetics, "colour")
+  expect_equal(scale_fill_tool_c()$aesthetics, "fill")
+})
+
+test_that("scale_color_tool_d maps levels to the palette's discrete order", {
+  p <- ggplot2::ggplot(ggplot2::mpg,
+                       ggplot2::aes(displ, hwy, colour = class)) +
+    ggplot2::geom_point() +
+    scale_color_tool_d("lateralus")
+
   built <- ggplot2::ggplot_build(p)
-  
-  # Extract colors used
-  colors_used <- built$data[[1]]$colour
-  
-  # All colors should be in the palette
-  expected_cols <- tool_palette("lateralus", n = 7, direction = 1)
-  expect_true(all(colors_used %in% expected_cols))
+  colors_used <- unique(built$data[[1]]$colour)
+
+  expected <- as.character(tool_palette("lateralus", n = 7))
+  expect_setequal(colors_used, expected)
+})
+
+test_that("direction = -1 reverses the discrete mapping", {
+  pal_fwd <- scale_fill_tool_d("aenima")$palette(4)
+  pal_rev <- scale_fill_tool_d("aenima", direction = -1)$palette(4)
+  expect_equal(pal_rev, rev(pal_fwd))
 })
 
 test_that("scale_fill_tool_c works with faithfuld", {
-  p <- ggplot2::ggplot(ggplot2::faithfuld, aes(waiting, eruptions, fill = density)) +
-    scale_fill_tool_c("fear_inoculum") +
-    geom_raster()
-  
-  # Should build without error
+  p <- ggplot2::ggplot(ggplot2::faithfuld,
+                       ggplot2::aes(waiting, eruptions, fill = density)) +
+    ggplot2::geom_raster() +
+    scale_fill_tool_c("fear_inoculum")
+
   built <- ggplot2::ggplot_build(p)
-  expect_s3_class(built, "ggplot_built")
+  fills <- built$data[[1]]$fill
+  expect_false(anyNA(fills))
+  expect_true(all(grepl("^#[0-9A-F]{6}$", fills)))
 })
 
-test_that("scale_colour_tool_d produces same result as scale_color_tool_d", {
-  p1 <- scale_colour_tool_d("lateralus")
-  p2 <- scale_color_tool_d("lateralus")
-  
-  # Check that both produce valid scales
-  expect_s3_class(p1, "ScaleDiscrete")
-  expect_s3_class(p2, "ScaleDiscrete")
+test_that("British spelling aliases are identical", {
+  expect_identical(scale_colour_tool_d, scale_color_tool_d)
+  expect_identical(scale_colour_tool_c, scale_color_tool_c)
 })
 
-test_that("scale_colour_tool_c produces same result as scale_color_tool_c", {
-  p1 <- scale_colour_tool_c("lateralus")
-  p2 <- scale_color_tool_c("lateralus")
-  
-  # Check that both produce valid scales
-  expect_s3_class(p1, "ScaleContinuous")
-  expect_s3_class(p2, "ScaleContinuous")
+test_that("invalid arguments error at scale construction", {
+  expect_error(scale_color_tool_d(palette = "unknown"), "Valid names:")
+  expect_error(scale_fill_tool_d(palette = "unknown"), "Valid names:")
+  expect_error(scale_color_tool_c(palette = "unknown"), "Valid names:")
+  expect_error(scale_fill_tool_c(palette = "notapalette"), "Valid names:")
+  expect_error(scale_color_tool_d(direction = 0), "'direction'")
 })
 
-test_that("invalid palette name errors at scale construction", {
-  expect_error(
-    scale_color_tool_d(palette = "unknown"),
-    "Valid names:"
-  )
-  
-  expect_error(
-    scale_fill_tool_c(palette = "notapalette"),
-    "Valid names:"
-  )
-})
-
-# Skip test for too many levels - the palettes all have >=7 colors, and class has 7
-test_that("discrete scales work with n < palette length", {
-  p <- ggplot2::ggplot(ggplot2::mpg, aes(displ, hwy)) +
-    scale_color_tool_d("undertow") +  # has 7 colors
-    geom_point()
-  
-  built <- ggplot2::ggplot_build(p)
-  expect_s3_class(built, "ggplot_built")
+test_that("discrete scale with more levels than colors errors on build", {
+  df <- data.frame(x = 1:9, y = 1:9, g = letters[1:9])
+  p <- ggplot2::ggplot(df, ggplot2::aes(x, y, colour = g)) +
+    ggplot2::geom_point() +
+    scale_color_tool_d("opiate")  # 7 colors
+  expect_error(ggplot2::ggplot_build(p), "only 7 colors")
 })

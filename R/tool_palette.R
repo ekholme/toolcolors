@@ -24,33 +24,18 @@
 tool_palette <- function(name, n = NULL, type = c("discrete", "continuous"),
                          direction = 1) {
   type <- match.arg(type)
-  
-  # Check palette name
-  if (!name %in% names(tool_palettes)) {
-    valid_names <- paste(sQuote(names(tool_palettes)), collapse = ", ")
-    stop("Unknown palette '",
-         name, "'. Valid names: ",
-         valid_names, call. = FALSE)
-  }
-  
+  check_palette_name(name)
+  check_direction(direction)
+
   pal <- tool_palettes[[name]]
-  
-  # Set n
+
   if (is.null(n)) {
     n <- length(pal$colors)
   }
-  
-  # Validate n
-  if (!is.numeric(n) || length(n) != 1 || n < 1 || floor(n) != n) {
+  if (!is.numeric(n) || length(n) != 1 || is.na(n) || n < 1 || n != floor(n)) {
     stop("'n' must be a single positive whole number", call. = FALSE)
   }
-  
-  # Validate direction
-  if (direction != 1 && direction != -1) {
-    stop("'direction' must be 1 or -1", call. = FALSE)
-  }
-  
-  # Get colors based on type
+
   if (type == "discrete") {
     if (n > length(pal$colors)) {
       stop("Palette '", name, "' has only ",
@@ -60,15 +45,30 @@ tool_palette <- function(name, n = NULL, type = c("discrete", "continuous"),
     cols <- pal$colors[pal$order[seq_len(n)]]
   } else {
     # Continuous: interpolate in natural order
-    ramp <- grDevices::colorRampPalette(pal$colors)
-    cols <- ramp(n)
+    cols <- grDevices::colorRampPalette(pal$colors)(n)
   }
-  
-  # Apply direction
+
   if (direction == -1) {
     cols <- rev(cols)
   }
-  
-  # Set class and attribute
+
   structure(cols, class = c("tool_palette", "character"), name = name)
+}
+
+check_palette_name <- function(name) {
+  if (!is.character(name) || length(name) != 1 || is.na(name) ||
+      !name %in% names(tool_palettes)) {
+    valid_names <- paste(sQuote(names(tool_palettes), FALSE), collapse = ", ")
+    stop("Unknown palette ", deparse(name), ". Valid names: ",
+         valid_names, call. = FALSE)
+  }
+  invisible(name)
+}
+
+check_direction <- function(direction) {
+  if (!is.numeric(direction) || length(direction) != 1 || is.na(direction) ||
+      !direction %in% c(1, -1)) {
+    stop("'direction' must be 1 or -1", call. = FALSE)
+  }
+  invisible(direction)
 }

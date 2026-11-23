@@ -3,7 +3,8 @@
 #' A named list of color palettes inspired by Tool album artwork.
 #'
 #' Each palette contains:
-#' * `colors` - hex codes, listed in natural order (dark to light)
+#' * `colors` - hex codes, listed in natural order (dark to light, or as
+#'   they read in the art); used for continuous scales
 #' * `order` - priority ranking of indices for discrete sampling
 #' * `type` - either "sequential" or "qualitative"
 #'
@@ -15,40 +16,48 @@
 #' print(tool_palette("lateralus"))
 #' @export
 tool_palettes <- list(
+  # Black field, maroon stone border, purple/green/magenta figure,
+  # orange-red logo, white lettering.
   opiate = list(
-    colors = c("#0D0D0D", "#2B2724", "#4A433D", "#6E655C",
-               "#968B7F", "#BDB3A6", "#E4DDD2"),
+    colors = c("#140F08", "#54242F", "#743978", "#477F3A",
+               "#B51E87", "#EF3104", "#E2E0DF"),
+    order  = c(6, 4, 5, 7, 3, 2, 1),
+    type   = "qualitative"
+  ),
+  # Near-black ground into the glowing red ribcage sculpture.
+  undertow = list(
+    colors = c("#161415", "#3B1E1F", "#5A2427", "#7F2B2E",
+               "#A23135", "#CB393C", "#F23F44"),
     order  = c(1, 7, 4, 2, 6, 3, 5),
     type   = "sequential"
   ),
-  undertow = list(
-    colors = c("#101614", "#24332E", "#3F5A50", "#6F8C7A",
-               "#A9B89A", "#D8CFA3", "#C98F3B"),
-    order  = c(3, 7, 6, 1, 4, 5, 2),
-    type   = "qualitative"
-  ),
+  # Black-blue field, slate-teal faces, cold blue-white glow.
   aenima = list(
-    colors = c("#0B1A2E", "#1F3B5C", "#3A6B8C", "#7FA7B8",
-               "#D9D4C7", "#C4622D", "#7A2E1C"),
-    order  = c(2, 6, 4, 7, 5, 1, 3),
-    type   = "qualitative"
+    colors = c("#04030E", "#1A1E2A", "#394450", "#5C757B",
+               "#92A8B2", "#D5E0F2", "#FFFFFF"),
+    order  = c(1, 6, 4, 2, 7, 3, 5),
+    type   = "sequential"
   ),
+  # Black logo, deep and mid muscle red, violet veins, gold and green flames,
+  # periwinkle and lavender glow.
   lateralus = list(
-    colors = c("#0A0A12", "#2A1B5E", "#1F6FB2", "#E8A33D",
-               "#E0602A", "#B8213A", "#D94F8C", "#F3E3C3"),
-    order  = c(3, 4, 6, 2, 5, 7, 8, 1),
+    colors = c("#0D0C0C", "#502223", "#9D4847", "#806797",
+               "#968045", "#9CAE6B", "#A5A5C8", "#D3C3DC"),
+    order  = c(3, 5, 4, 6, 1, 8, 2, 7),
     type   = "qualitative"
   ),
+  # The near-monochrome charcoal face on the cover.
   ten_thousand_days = list(
-    colors = c("#1A0F1E", "#4B1D3F", "#8C1C2B", "#C2562B",
-               "#D9A441", "#5E7D4A", "#2F5D62"),
-    order  = c(3, 5, 7, 2, 6, 4, 1),
-    type   = "qualitative"
+    colors = c("#020206", "#0E0E18", "#1A1A24", "#262835",
+               "#323440", "#40424E", "#515460"),
+    order  = c(1, 7, 4, 2, 6, 3, 5),
+    type   = "sequential"
   ),
+  # Black void, navy and electric-blue scales, icy highlights, gold logo.
   fear_inoculum = list(
-    colors = c("#050608", "#0E3B43", "#1E7A7A", "#5FC1B5",
-               "#B8862F", "#E2B857", "#8E2A1E"),
-    order  = c(3, 6, 7, 2, 4, 5, 1),
+    colors = c("#08080C", "#1B355A", "#155DAF", "#5296DF",
+               "#DCE1F7", "#A5843C", "#D1B05E"),
+    order  = c(3, 7, 1, 5, 2, 4, 6),
     type   = "qualitative"
   )
 )

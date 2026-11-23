@@ -1,50 +1,45 @@
 #' Display all palettes
 #'
+#' Plots every matching palette, stacked vertically and labeled by name.
+#'
 #' @param type Filter by palette type: `"all"`, `"sequential"`, or `"qualitative"`.
 #'
 #' @return Invisibly returns the names of displayed palettes.
+#'
+#' @examples
+#' display_all()
+#' display_all("sequential")
 #' @export
 display_all <- function(type = c("all", "sequential", "qualitative")) {
   type <- match.arg(type)
-  
-  # Filter palette names by type
-  if (type == "all") {
-    pal_names <- names(tool_palettes)
-  } else {
-    pal_names <- names(tool_palettes)[sapply(tool_palettes, function(p) p$type == type)]
+
+  pal_names <- names(tool_palettes)
+  if (type != "all") {
+    is_type <- vapply(tool_palettes, function(p) p$type == type, logical(1))
+    pal_names <- pal_names[is_type]
   }
-  
-  # Save par settings
-  old_par <- par(no.readonly = TRUE)
-  on.exit(par(old_par), add = TRUE)
-  
+
   n <- length(pal_names)
   if (n == 0) {
     return(invisible(character(0)))
   }
-  
-  # Layout: one row per palette
-  par(mfrow = c(n, 1), mar = c(2, 4, 2, 1))
-  
+
+  old_par <- graphics::par(mfrow = c(n, 1), mar = c(0.3, 0.5, 1.5, 0.5))
+  on.exit(graphics::par(old_par), add = TRUE)
+
   for (name in pal_names) {
     pal <- tool_palettes[[name]]
     n_colors <- length(pal$colors)
-    
-    # Set up the plot region
-    plot(NULL, xlim = c(0.5, n_colors + 0.5), ylim = c(0, 1),
-         axes = FALSE, xlab = "", ylab = "")
-    
-    # Draw swatch using rect()
-    for (i in seq_len(n_colors)) {
-      rect(xleft = i - 0.5, ybottom = 0,
-           xright = i + 0.5, ytop = 1,
-           col = pal$colors[i])
-    }
-    
-    # Add label on left
-    mtext(paste0(sQuote(name), " (", pal$type, ")"), side = 2, line = 1,
-          at = 0.5, cex = 0.9)
+
+    graphics::plot.new()
+    graphics::plot.window(xlim = c(0, n_colors), ylim = c(0, 1),
+                          xaxs = "i", yaxs = "i")
+    graphics::rect(xleft = seq_len(n_colors) - 1, ybottom = 0,
+                   xright = seq_len(n_colors), ytop = 1,
+                   col = pal$colors, border = NA)
+    graphics::title(main = paste0(name, " (", pal$type, ")"),
+                    adj = 0, cex.main = 1, font.main = 1)
   }
-  
+
   invisible(pal_names)
 }

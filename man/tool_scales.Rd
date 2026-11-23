@@ -6,6 +6,8 @@
 \alias{scale_fill_tool_d}
 \alias{scale_color_tool_c}
 \alias{scale_fill_tool_c}
+\alias{scale_colour_tool_d}
+\alias{scale_colour_tool_c}
 \title{Tool color and fill scales for ggplot2}
 \usage{
 scale_color_tool_d(palette = "lateralus", direction = 1, ...)
@@ -15,6 +17,10 @@ scale_fill_tool_d(palette = "lateralus", direction = 1, ...)
 scale_color_tool_c(palette = "lateralus", direction = 1, ...)
 
 scale_fill_tool_c(palette = "lateralus", direction = 1, ...)
+
+scale_colour_tool_d(palette = "lateralus", direction = 1, ...)
+
+scale_colour_tool_c(palette = "lateralus", direction = 1, ...)
 }
 \arguments{
 \item{palette}{Palette name (one of \code{names(tool_palettes)}).}
@@ -30,6 +36,9 @@ A ggplot2 scale object.
 \description{
 Discrete scales (\verb{_d}) sample colors using the palette's \code{order} vector.
 Continuous scales (\verb{_c}) interpolate between colors in natural order.
+
+Discrete scales error if the data have more levels than the palette has
+colors; use a continuous scale or fewer levels in that case.
 }
 \examples{
 library(ggplot2)

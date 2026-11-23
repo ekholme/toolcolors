@@ -13,5 +13,9 @@ display_all(type = c("all", "sequential", "qualitative"))
 Invisibly returns the names of displayed palettes.
 }
 \description{
-Display all palettes
+Plots every matching palette, stacked vertically and labeled by name.
+}
+\examples{
+display_all()
+display_all("sequential")
 }

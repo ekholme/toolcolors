@@ -7,11 +7,5 @@
 #' **Disclaimer:** This package is not affiliated with or endorsed by Tool or
 #' the artists. Palettes are interpretations inspired by the artwork.
 #'
-#' @import ggplot2
-#' @import graphics
-#' @import grDevices
 #' @keywords internal
 "_PACKAGE"
-
-## usethis.nroptions()
-NULL

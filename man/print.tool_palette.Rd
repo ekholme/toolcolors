@@ -15,5 +15,5 @@
 Invisibly returns \code{x}.
 }
 \description{
-Print a tool palette
+Draws the palette as a swatch in the active graphics device.
 }
