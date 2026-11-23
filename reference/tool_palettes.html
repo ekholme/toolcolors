@@ -60,7 +60,8 @@
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>Each palette contains:</p><ul><li><p><code>colors</code> - hex codes, listed in natural order (dark to light)</p></li>
+    <p>Each palette contains:</p><ul><li><p><code>colors</code> - hex codes, listed in natural order (dark to light, or as
+they read in the art); used for continuous scales</p></li>
 <li><p><code>order</code> - priority ranking of indices for discrete sampling</p></li>
 <li><p><code>type</code> - either "sequential" or "qualitative"</p></li>
 </ul></div>
@@ -69,11 +70,11 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tool_palettes</span><span class="op">$</span><span class="va">lateralus</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $colors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#0A0A12" "#2A1B5E" "#1F6FB2" "#E8A33D" "#E0602A" "#B8213A" "#D94F8C"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [8] "#F3E3C3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#0D0C0C" "#502223" "#9D4847" "#806797" "#968045" "#9CAE6B" "#A5A5C8"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [8] "#D3C3DC"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $order</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 4 6 2 5 7 8 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 5 4 6 1 8 2 7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "qualitative"</span>
